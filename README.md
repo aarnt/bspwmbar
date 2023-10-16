@@ -5,6 +5,8 @@
 
 A lightweight status bar for bspwm.
 
+*This is derived work from [odknt's bspwmbar](https://github.com/odknt/bspwmbar) with updates for OpenBSD.*
+
 Currently required [nerd-fonts](https://github.com/ryanoasis/nerd-fonts)
 (Arch: [ttf-nerd-fonts-symbols](https://www.archlinux.jp/packages/community/x86_64/ttf-nerd-fonts-symbols/))
 
