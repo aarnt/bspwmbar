@@ -72,12 +72,12 @@ module_t left_modules[] = {
 
 /* modules on the right */
 module_t right_modules[] = {
-	{ /* system tray */
-		.tray = {
-			.func = systray,
-			.iconsize = 16,
-		},
-	},
+	//{ /* system tray */
+	//	.tray = {
+	//		.func = systray,
+	//		.iconsize = 16,
+	//	},
+	//},
 	{ /* cpu usage */
 		.cpu = {
 			.func = cpugraph,
