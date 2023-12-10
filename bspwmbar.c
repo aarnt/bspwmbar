@@ -1532,6 +1532,7 @@ xev_handle()
 
 	/* for X11 events */
 	while ((event = xcb_poll_for_event(bar.xcb))) {
+		//printf("Response type: %d\n", event->response_type & ~0x80);
 		switch (event->response_type & ~0x80) {
 		case XCB_SELECTION_CLEAR:
 			systray_handle(tray, event);
@@ -1540,15 +1541,71 @@ xev_handle()
 			res = PR_UPDATE;
 			break;
 		case XCB_BUTTON_PRESS:
+			//printf("Button pressed: %d\n", ((xcb_button_press_event_t*)event)->detail);
 			dc = NULL;
 			button = (xcb_button_press_event_t *)event;
 			for (int j = 0; j < bar.ndc; j++)
 				if (bar.dcs[j].xbar.win == button->event)
 					dc = &bar.dcs[j];
+
+			//Here is where we handle the mouse click to change desktops
+			if (button->detail == XCB_BUTTON_INDEX_1)
+			{
+				printf("Root X: %d\n", button->root_x);
+				//printf("Root Y: %d\n", button->root_y);
+				
+				//Left button pressed
+				if (button->root_x <=30 && button->root_y <=30)
+				{
+					system("dmenu_run -i -fn NotoSansFonts:size=14 -sb rgb:ED/A8/70 -sf rgb:00/00/00");
+				}
+				else if (button->root_x >= 38 && button->root_x <= 49)
+				{
+					system("bspc desktop -f 1");
+				}
+				else if (button->root_x >= 56 && button->root_x <= 64)
+				{
+					system("bspc desktop -f 2");
+				}
+				else if (button->root_x >= 72 && button->root_x <= 80)
+				{
+					system("bspc desktop -f 3");
+				}
+				else if (button->root_x >= 88 && button->root_x <= 96)
+				{
+					system("bspc desktop -f 4");
+				}
+				else if (button->root_x >= 104 && button->root_x <= 112)
+				{
+					system("bspc desktop -f 5");
+				}
+				else if (button->root_x >= 120 && button->root_x <= 128)
+				{
+					system("bspc desktop -f 6");
+				}
+				else if (button->root_x >= 1679 && button->root_x <= 1731)
+				{
+					system("notify-send Remaining `apm -m`");
+				}
+				else if (button->root_x >= 1843)
+				{
+					system("notify-send `date \"+%a, %d/%m/%Y\"`");
+				}
+				//else
+				//	system("bspc desktop -f prev");
+			}
+			/*else if (button->detail == XCB_BUTTON_INDEX_3)
+			{
+				//Right button pressed
+				system("bspc desktop -f next");
+			}*/
+
 			if (!dc)
 				break;
-			/* notify evnent to modules */
+			
+			/* notify event to modules */
 			xcb_event_notify(event, dc);
+			
 			break;
 		case XCB_PROPERTY_NOTIFY:
 			prop = (xcb_property_notify_event_t *)event;
