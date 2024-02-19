@@ -1594,11 +1594,16 @@ xev_handle()
 				//else
 				//	system("bspc desktop -f prev");
 			}
-			/*else if (button->detail == XCB_BUTTON_INDEX_3)
+      else if (button->detail == XCB_BUTTON_INDEX_4)
 			{
-				//Right button pressed
-				system("bspc desktop -f next");
-			}*/
+        //Scroll UP pressed
+        system("bspc desktop -f prev");
+      }
+      else if (button->detail == XCB_BUTTON_INDEX_5)
+      {
+        //Scroll DOWN pressed
+        system("bspc desktop -f next");
+      }
 
 			if (!dc)
 				break;
